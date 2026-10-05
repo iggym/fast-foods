@@ -1,0 +1,704 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fast Food — A Field Guide to the World's Most Popular Meal</title>
+<meta name="description" content="A hypermedia field guide to fast food: what counts as fast food, the iconic menu, the numbers behind the industry, a timeline of how it happened, and how the same idea tastes in a dozen countries. Plain HTML and CSS — no JavaScript.">
+<meta name="author" content="iggym">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#D7261F">
+<link rel="canonical" href="https://iggym.github.io/fast-foods/">
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><text y="50" font-size="48">%F0%9F%8D%94</text></svg>'>
+<meta property="og:type" content="website">
+<meta property="og:title" content="Fast Food — A Field Guide">
+<meta property="og:description" content="What counts as fast food, the iconic menu, the numbers, the timeline, and how it tastes in a dozen countries.">
+<meta property="og:url" content="https://iggym.github.io/fast-foods/">
+<meta property="og:image" content="https://iggym.github.io/fast-foods/assets/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"Fast Food — A Field Guide","about":"Fast food","inLanguage":"en","url":"https://iggym.github.io/fast-foods/","license":"https://opensource.org/licenses/MIT","isAccessibleForFree":true}
+</script>
+<style>
+/* ============================================================
+   Fast Food — a hypermedia page.
+   Plain HTML + CSS. No JavaScript, no build step.
+   ============================================================ */
+
+/* ---------- tokens ---------- */
+:root{
+  --red:#D7261F;
+  --red-lift:#F2542D;
+  --mustard:#FFC72C;
+  --bun:#E8A33D;
+  --lettuce:#3E8E41;
+  --ink:#17140F;
+  --ink-soft:#5E574D;
+  --ink-faint:#8C8377;
+  --paper:#FFF9F1;
+  --card:#FFFFFF;
+  --line:rgba(23,20,15,.12);
+  --line-soft:rgba(23,20,15,.07);
+  --shadow:0 1px 2px rgba(23,20,15,.05), 0 10px 30px -18px rgba(23,20,15,.45);
+  --shadow-lg:0 2px 4px rgba(23,20,15,.06), 0 28px 60px -30px rgba(23,20,15,.5);
+  --radius:20px;
+  --radius-sm:12px;
+  --maxw:1120px;
+  --step:clamp(1.05rem,1rem + .3vw,1.15rem);
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+}
+/* dark mode: automatic, plus a manual switch below */
+@media (prefers-color-scheme:dark){
+  :root:has(#theme:not(:checked)){
+    --ink:#F6F1E9; --ink-soft:#B9B0A2; --ink-faint:#8A8175;
+    --paper:#121110; --card:#1B1917;
+    --line:rgba(246,241,233,.16); --line-soft:rgba(246,241,233,.08);
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.9);
+    --shadow-lg:0 2px 4px rgba(0,0,0,.5), 0 28px 60px -30px rgba(0,0,0,1);
+    --red:#FF5A46; --red-lift:#FF7B5F;
+  }
+}
+/* the switch: checked = force dark, everywhere */
+:root:has(#theme:checked){
+  --ink:#F6F1E9; --ink-soft:#B9B0A2; --ink-faint:#8A8175;
+  --paper:#121110; --card:#1B1917;
+  --line:rgba(246,241,233,.16); --line-soft:rgba(246,241,233,.08);
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.9);
+  --shadow-lg:0 2px 4px rgba(0,0,0,.5), 0 28px 60px -30px rgba(0,0,0,1);
+  --red:#FF5A46; --red-lift:#FF7B5F;
+}
+
+/* ---------- base ---------- */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
+}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font:var(--step)/1.65 var(--sans);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--red);text-decoration-thickness:.09em;text-underline-offset:.16em}
+a:hover{color:var(--red-lift)}
+:focus-visible{outline:3px solid var(--mustard);outline-offset:3px;border-radius:4px}
+h1,h2,h3,h4{line-height:1.14;letter-spacing:-.022em;margin:0 0 .5em;font-weight:800}
+h2{font-size:clamp(1.7rem,1.2rem + 2.2vw,2.7rem)}
+h3{font-size:1.15rem;letter-spacing:-.01em}
+p{margin:0 0 1em}
+.wrap{width:min(100% - 2.5rem,var(--maxw));margin-inline:auto}
+.lede{font-size:clamp(1.1rem,1.02rem + .5vw,1.32rem);color:var(--ink-soft);max-width:62ch}
+.muted{color:var(--ink-soft)}
+.tiny{font-size:.82rem;color:var(--ink-faint)}
+section{scroll-margin-top:96px}
+.section{padding:clamp(3.5rem,7vw,6rem) 0;border-top:1px solid var(--line-soft)}
+.section-head{max-width:64ch;margin-bottom:2.5rem}
+.eyebrow{
+  font:600 .78rem/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;
+  color:var(--red);display:flex;align-items:center;gap:.6rem;margin-bottom:1rem;
+}
+.eyebrow::before{content:"";width:26px;height:3px;border-radius:2px;background:var(--mustard)}
+.skip{
+  position:absolute;left:-9999px;top:0;z-index:99;background:var(--ink);color:var(--paper);
+  padding:.75rem 1.1rem;border-radius:0 0 var(--radius-sm) 0;font-weight:700;
+}
+.skip:focus{left:0}
+
+/* ---------- nav ---------- */
+.nav{
+  position:sticky;top:0;z-index:50;
+  backdrop-filter:saturate(180%) blur(14px);
+  -webkit-backdrop-filter:saturate(180%) blur(14px);
+  background:color-mix(in srgb,var(--paper) 82%,transparent);
+  border-bottom:1px solid var(--line-soft);
+}
+.nav-in{display:flex;align-items:center;gap:1.25rem;min-height:64px}
+.brand{display:flex;align-items:center;gap:.6rem;font-weight:900;letter-spacing:-.03em;font-size:1.06rem;color:var(--ink);text-decoration:none;margin-right:auto}
+.brand svg{width:28px;height:28px;flex:none}
+.brand span i{font-style:normal;color:var(--red)}
+.nav-links{display:flex;gap:.15rem;flex-wrap:wrap}
+.nav-links a{color:var(--ink-soft);text-decoration:none;font-weight:600;font-size:.9rem;padding:.45rem .7rem;border-radius:999px}
+.nav-links a:hover{color:var(--ink);background:var(--line-soft)}
+.switch{display:flex;align-items:center;gap:.5rem;font-size:.78rem;font-weight:700;color:var(--ink-soft);cursor:pointer;user-select:none;white-space:nowrap}
+.switch input{position:absolute;opacity:0;width:0;height:0}
+.switch .track{
+  width:42px;height:24px;border-radius:999px;background:var(--line);border:1px solid var(--line);
+  position:relative;transition:background .2s ease;flex:none;
+}
+.switch .track::after{
+  content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;
+  background:var(--card);box-shadow:0 1px 3px rgba(0,0,0,.35);transition:transform .2s ease;
+}
+.switch input:checked + .track{background:var(--red)}
+.switch input:checked + .track::after{transform:translateX(18px)}
+.switch input:focus-visible + .track{outline:3px solid var(--mustard);outline-offset:2px}
+@media (max-width:860px){
+  .nav-links{display:none}
+  .nav-in{gap:.75rem}
+}
+
+/* ---------- hero ---------- */
+.hero{position:relative;padding:clamp(2rem,5vw,4rem) 0 0;overflow:hidden}
+.hero::before{
+  content:"";position:absolute;inset:-30% -10% auto -10%;height:120%;z-index:-1;
+  background:
+    radial-gradient(46% 54% at 12% 18%,color-mix(in srgb,var(--mustard) 42%,transparent),transparent 70%),
+    radial-gradient(42% 52% at 88% 6%,color-mix(in srgb,var(--red) 30%,transparent),transparent 70%),
+    radial-gradient(50% 40% at 50% 100%,color-mix(in srgb,var(--lettuce) 14%,transparent),transparent 70%);
+  filter:blur(6px);
+}
+.hero h1{
+  font-size:clamp(2.5rem,1.5rem + 4.6vw,4.6rem);
+  letter-spacing:-.04em;margin:0 0 .4em;max-width:17ch;
+}
+.hero h1 em{
+  font-style:normal;
+  background:linear-gradient(96deg,var(--red) 0%,var(--bun) 58%,var(--mustard) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero-grid{display:grid;gap:2.5rem;align-items:center}
+@media (min-width:960px){.hero-grid{grid-template-columns:1.05fr .95fr;gap:3rem}}
+.cta{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.75rem}
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;font-weight:700;font-size:.95rem;
+  padding:.8rem 1.3rem;border-radius:999px;text-decoration:none;border:2px solid transparent;
+  transition:transform .15s ease,background .15s ease;
+}
+.btn-primary{background:var(--red);color:#fff;box-shadow:var(--shadow)}
+.btn-primary:hover{background:var(--red-lift);color:#fff;transform:translateY(-1px)}
+.btn-ghost{border-color:var(--line);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--ink);color:var(--ink)}
+figure.hero-fig{margin:0}
+.hero-fig img{
+  border-radius:var(--radius);box-shadow:var(--shadow-lg);
+  aspect-ratio:16/8.4;object-fit:cover;width:100%;
+}
+.hero-fig figcaption{font-size:.82rem;color:var(--ink-faint);margin-top:.7rem}
+.chips{display:flex;flex-wrap:wrap;gap:.6rem;list-style:none;margin:1.6rem 0 0;padding:0}
+.chip{
+  font-size:.82rem;font-weight:700;padding:.45rem .85rem;border-radius:999px;
+  background:var(--card);border:1px solid var(--line);color:var(--ink-soft);box-shadow:var(--shadow);
+}
+.chip b{color:var(--ink)}
+
+/* ---------- ticker ---------- */
+.ticker{
+  margin-top:clamp(2.5rem,5vw,4rem);border-block:1px solid var(--line);background:var(--card);
+  overflow:hidden;padding:.85rem 0;
+  mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+}
+.ticker-track{display:flex;gap:2.25rem;width:max-content;animation:slide 44s linear infinite}
+.ticker-track span{
+  font:800 .92rem/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);
+  display:flex;align-items:center;gap:2.25rem;white-space:nowrap;
+}
+.ticker-track span::after{content:"•";color:var(--mustard)}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ---------- cards & grids ---------- */
+.grid{display:grid;gap:1.1rem}
+@media (min-width:620px){.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}}
+@media (min-width:900px){.g4{grid-template-columns:repeat(4,1fr)}}
+.card{
+  background:var(--card);border:1px solid var(--line-soft);border-radius:var(--radius);
+  padding:1.5rem;box-shadow:var(--shadow);position:relative;
+}
+.card > :last-child{margin-bottom:0}
+.pillars .card{overflow:hidden}
+.pillars .card::before{
+  content:"";position:absolute;inset:0 0 auto 0;height:4px;
+  background:linear-gradient(90deg,var(--red),var(--mustard));
+}
+
+/* ---------- menu ---------- */
+.menu-card{display:flex;flex-direction:column;gap:.7rem;transition:transform .18s ease,box-shadow .18s ease}
+.menu-card:hover,.menu-card:target{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.menu-card:target{border-color:var(--red)}
+.menu-card .ico{
+  width:74px;height:74px;border-radius:18px;display:grid;place-items:center;
+  background:color-mix(in srgb,var(--mustard) 20%,transparent);border:1px solid var(--line-soft);
+}
+.menu-card .ico svg{width:52px;height:52px}
+.menu-card h3{margin:0;line-height:1.3}
+.origin{font-size:.73rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--red);min-height:2.4em}
+.menu-card p{margin:0;font-size:.94rem;color:var(--ink-soft)}
+
+/* ---------- stats ---------- */
+.stats{display:grid;gap:1.1rem}
+@media (min-width:640px){.stats{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:1000px){.stats{grid-template-columns:repeat(3,1fr)}}
+.stat{display:flex;flex-direction:column;gap:.35rem}
+.stat .n{
+  font-size:clamp(1.9rem,1.4rem + 2vw,2.7rem);font-weight:900;letter-spacing:-.04em;line-height:1;
+  background:linear-gradient(180deg,var(--red),var(--bun));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.stat .lbl{font-weight:700;font-size:.95rem}
+.stat .note{font-size:.82rem;color:var(--ink-soft);margin-top:.25rem}
+.stat .src{font-size:.72rem;color:var(--ink-faint);margin-top:.4rem}
+.stat .src a{color:inherit}
+
+/* ---------- bar chart ---------- */
+.chart{margin-top:2.5rem;background:var(--card);border:1px solid var(--line-soft);border-radius:var(--radius);padding:1.6rem;box-shadow:var(--shadow)}
+.chart h3{margin-bottom:.25rem}
+.chart .cap{font-size:.82rem;color:var(--ink-soft);margin-bottom:1.4rem}
+.bar-row{display:grid;grid-template-columns:6.5rem 1fr auto;gap:.8rem;align-items:center;margin-bottom:.7rem;font-size:.88rem}
+.bar-track{display:block;background:var(--line-soft);border-radius:999px;height:14px;overflow:hidden}
+.bar-fill{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--red),var(--bun));min-width:8px}
+.bar-row .v{font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink-soft);font-size:.82rem}
+.bar-row .flag{font-weight:700}
+@media (max-width:560px){.bar-row{grid-template-columns:5rem 1fr auto;font-size:.8rem}}
+
+/* ---------- timeline ---------- */
+.tl{list-style:none;margin:0;padding:0;position:relative}
+.tl::before{content:"";position:absolute;left:7.25rem;top:.5rem;bottom:.5rem;width:2px;background:var(--line)}
+.tl li{display:grid;grid-template-columns:6rem 2.5rem 1fr;align-items:start;padding:.9rem 0}
+.tl .yr{font-weight:900;font-variant-numeric:tabular-nums;color:var(--red);text-align:right;font-size:1.02rem;letter-spacing:-.02em}
+.tl .dot{justify-self:center;width:14px;height:14px;border-radius:50%;background:var(--card);border:3px solid var(--red);margin-top:.35rem;z-index:1}
+.tl .what strong{display:block;font-size:1.02rem}
+.tl .what span{font-size:.92rem;color:var(--ink-soft)}
+@media (max-width:620px){
+  .tl::before{left:3.6rem}
+  .tl li{grid-template-columns:2.6rem 2rem 1fr}
+  .tl .yr{font-size:.9rem}
+}
+
+/* ---------- world tour ---------- */
+.place{display:flex;flex-direction:column;gap:.4rem}
+.place .where{font-size:.74rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)}
+.place h3{margin:0;font-size:1.08rem}
+.place p{margin:0;font-size:.93rem;color:var(--ink-soft)}
+
+/* ---------- trivia ---------- */
+details.q{
+  background:var(--card);border:1px solid var(--line-soft);border-radius:var(--radius-sm);
+  padding:1rem 1.25rem;margin-bottom:.7rem;box-shadow:var(--shadow);
+}
+details.q summary{cursor:pointer;font-weight:700;list-style:none;display:flex;align-items:center;gap:.75rem}
+details.q summary::-webkit-details-marker{display:none}
+details.q summary::before{
+  content:"";width:10px;height:10px;flex:none;background:var(--mustard);border-radius:3px;
+  transform:rotate(45deg);transition:transform .18s ease;
+}
+details.q[open] summary::before{background:var(--red);transform:rotate(135deg)}
+details.q p{margin:.85rem 0 0;color:var(--ink-soft);font-size:.95rem}
+
+/* ---------- receipt ---------- */
+.duo{display:grid;gap:2.5rem;align-items:start}
+@media (min-width:900px){.duo{grid-template-columns:1.15fr .85fr;gap:3.5rem}}
+.receipt{
+  background:var(--card);border:1px solid var(--line);border-radius:6px;
+  font:400 .88rem/1.55 var(--mono);padding:1.5rem 1.4rem 1.2rem;
+  box-shadow:var(--shadow-lg);position:relative;
+}
+.receipt::before,.receipt::after{
+  content:"";position:absolute;left:0;right:0;height:9px;
+  background:radial-gradient(circle at 5px 5px,transparent 4.5px,var(--card) 4.5px) 0 0/10px 10px repeat-x;
+}
+.receipt::before{top:-1px;transform:rotate(180deg)}
+.receipt::after{bottom:-1px}
+.receipt h3{font:700 .95rem/1.4 var(--sans);text-align:center;text-transform:uppercase;letter-spacing:.14em;margin:0 0 .9rem}
+.receipt .row{display:flex;justify-content:space-between;gap:1rem}
+.receipt .hr{border-top:1px dashed var(--line);margin:.85rem 0}
+.receipt .tot{display:flex;justify-content:space-between;font-weight:700}
+.receipt .fine{font-size:.7rem;color:var(--ink-faint);text-align:center;margin-top:1rem}
+.barcode{display:flex;gap:2px;height:38px;align-items:stretch;justify-content:center;margin-top:.9rem}
+.barcode i{background:var(--ink);width:2px;border-radius:1px}
+.barcode i:nth-child(3n){width:4px}
+.barcode i:nth-child(5n){width:1px}
+
+/* ---------- sources / callout / footer ---------- */
+.sources{list-style:none;margin:0;padding:0;display:grid;gap:.7rem}
+@media (min-width:760px){.sources{grid-template-columns:repeat(2,1fr)}}
+.sources li{font-size:.88rem;color:var(--ink-soft);padding-left:1.35rem;position:relative}
+.sources li::before{content:"↗";position:absolute;left:0;color:var(--red);font-weight:700}
+.callout{
+  background:color-mix(in srgb,var(--mustard) 16%,var(--card));
+  border:1px solid var(--line);border-left:4px solid var(--mustard);
+  border-radius:var(--radius-sm);padding:1.25rem 1.4rem;margin-top:2rem;
+}
+.callout p:last-child{margin-bottom:0}
+.callout code{font-family:var(--mono);font-size:.86em;background:var(--line-soft);padding:.1em .35em;border-radius:5px}
+footer.site{border-top:1px solid var(--line);background:var(--card);padding:2.75rem 0 3.25rem;margin-top:2rem}
+.foot-in{display:flex;flex-wrap:wrap;gap:1.25rem;justify-content:space-between;align-items:center}
+.foot-in p{margin:0;font-size:.86rem;color:var(--ink-soft)}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- ===================== nav ===================== -->
+<header class="nav">
+  <nav class="nav-in wrap" aria-label="Sections">
+    <a class="brand" href="#top" aria-label="Fast Food, back to top">
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M6 20c0-8 7-13 18-13s18 5 18 13z" fill="#E8A33D"/>
+        <circle cx="16" cy="13" r="1.6" fill="#FFF9F1"/><circle cx="25" cy="11" r="1.6" fill="#FFF9F1"/><circle cx="33" cy="14" r="1.6" fill="#FFF9F1"/>
+        <rect x="5" y="21.5" width="38" height="5" rx="2.5" fill="#3E8E41"/>
+        <rect x="5" y="27" width="38" height="6.5" rx="2" fill="#8A4B2A"/>
+        <path d="M6 34h36v2.5c0 3.6-3 6.5-6.6 6.5H12.6C9 43 6 40.1 6 36.5z" fill="#E8A33D"/>
+      </svg>
+      <span>FAST<i>·</i>FOODS</span>
+    </a>
+    <div class="nav-links">
+      <a href="#menu">Menu</a>
+      <a href="#numbers">Numbers</a>
+      <a href="#timeline">Timeline</a>
+      <a href="#world">World tour</a>
+      <a href="#trivia">Trivia</a>
+      <a href="#sources">Sources</a>
+    </div>
+    <label class="switch" for="theme">
+      <input type="checkbox" id="theme">
+      <span class="track" aria-hidden="true"></span>
+      Dark
+    </label>
+  </nav>
+</header>
+
+<main id="main">
+
+<!-- ===================== hero ===================== -->
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">A field guide to the world's most popular meal</p>
+      <h1>Food that arrives <em>before</em> you finish deciding.</h1>
+      <p class="lede">Fast food isn't a cuisine — it's a delivery mechanism that invented its own menu. Assembled in seconds from a handful of standardized parts, sold at a price that closes the deal faster than the kitchen can. Here's what that machine actually looks like: the menu, the money, the history, and the countries that do it their own way.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#menu">Start with the menu ↓</a>
+        <a class="btn btn-ghost" href="#numbers">Skip to the numbers</a>
+      </div>
+      <ul class="chips">
+        <li class="chip"><b>≈$890B</b> market, 2026</li>
+        <li class="chip"><b>536,825</b> restaurants worldwide</li>
+        <li class="chip">first chain: <b>1921</b></li>
+        <li class="chip"><b>0</b> lines of JavaScript</li>
+      </ul>
+    </div>
+    <figure class="hero-fig">
+      <img src="assets/hero.webp" width="1600" height="840"
+           alt="A fast food spread on a dark slate board: a tall double cheeseburger with a sesame seed bun, a red paper sleeve of golden french fries, a whipped milkshake with a striped straw and a cherry, a cola in a paper cup, and a slice of pepperoni pizza.">
+      <figcaption>The core repertoire: burger, fries, shake, soda, pizza slice. Five items that travelled further than most languages.</figcaption>
+    </figure>
+  </div>
+
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span>White Castle</span><span>McDonald's</span><span>KFC</span><span>Burger King</span><span>Taco Bell</span><span>Subway</span><span>Domino's</span><span>Wendy's</span><span>Popeyes</span><span>Chick-fil-A</span><span>Dunkin'</span><span>Pizza Hut</span><span>Sonic</span><span>In-N-Out</span>
+      <span>White Castle</span><span>McDonald's</span><span>KFC</span><span>Burger King</span><span>Taco Bell</span><span>Subway</span><span>Domino's</span><span>Wendy's</span><span>Popeyes</span><span>Chick-fil-A</span><span>Dunkin'</span><span>Pizza Hut</span><span>Sonic</span><span>In-N-Out</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== what counts ===================== -->
+<section class="section" id="what">
+  <div class="wrap">
+    <div class="duo">
+      <div>
+        <p class="eyebrow">The definition</p>
+        <h2>Three parts, endlessly rearranged</h2>
+        <p class="lede">Strip away the branding and every fast food meal is built from the same three promises.</p>
+        <div class="grid g3 pillars" style="margin-top:2rem">
+          <div class="card">
+            <h3>Speed as a product</h3>
+            <p class="muted">Not an accident of the model — the actual thing being sold. The assembly line came first; the food was designed backwards from it. Limit the parts, pre-cut everything, cook on a timer.</p>
+          </div>
+          <div class="card">
+            <h3>A menu that fits on a wall</h3>
+            <p class="muted">Small enough to memorize, identical in every location. Consistency is the product; the recipe is the specification. A burger in Tokyo and a burger in Tulsa are the same burger on purpose.</p>
+          </div>
+          <div class="card">
+            <h3>Scale, or nothing</h3>
+            <p class="muted">Almost every major chain grew by franchising: someone else's capital, the brand's playbook, a percentage off the top. That's what turns a diner into five thousand addresses.</p>
+          </div>
+        </div>
+      </div>
+
+      <aside class="receipt" aria-label="A receipt for one combo meal">
+        <h3>Combo Meal</h3>
+        <div class="row"><span>1 × Burger, double</span><span>—</span></div>
+        <div class="row"><span>1 × Fries, standard</span><span>—</span></div>
+        <div class="row"><span>1 × Shake, 16 oz</span><span>—</span></div>
+        <div class="hr"></div>
+        <div class="row"><span>parts in common</span><span>~4</span></div>
+        <div class="row"><span>assembly time</span><span>&lt; 90 s</span></div>
+        <div class="row"><span>menu variations</span><span>millions</span></div>
+        <div class="hr"></div>
+        <div class="tot"><span>TOTAL</span><span>one idea</span></div>
+        <div class="barcode" aria-hidden="true">
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+        <p class="fine">THANK YOU — NO JAVASCRIPT WAS HARMED</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== menu ===================== -->
+<section class="section" id="menu">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">The repertoire</p>
+      <h2>Eight items that run the whole industry</h2>
+      <p class="lede">You can build a global chain out of this list. Region by region, these are the shapes that scaled — each one a small piece of engineering as much as a recipe.</p>
+    </div>
+
+    <div class="grid g4">
+      <article class="card menu-card" id="m-burger">
+        <span class="ico" aria-hidden="true">
+          <svg viewBox="0 0 64 64"><path d="M6 28c0-11 9-19 26-19s26 8 26 19z" fill="#E8A33D"/><circle cx="21" cy="17" r="2" fill="#FFF9F1"/><circle cx="32" cy="14" r="2" fill="#FFF9F1"/><circle cx="43" cy="18" r="2" fill="#FFF9F1"/><rect x="4" y="30" width="56" height="7" rx="3.5" fill="#3E8E41"/><rect x="4" y="38" width="56" height="8" rx="2.5" fill="#8A4B2A"/><path d="M6 48h52v3c0 5-4 9-9 9H15c-5 0-9-4-9-9z" fill="#E8A33D"/></svg>
+        </span>
+        <h3>The Burger</h3>
+        <p class="origin">Wichita → San Bernardino</p>
+        <p>Two buns, one patty, infinite branding. The 1948 Speedee System rebuilt the kitchen around it and made the burger a manufacturing problem.</p>
+      </article>
+
+      <article class="card menu-card" id="m-fries">
+        <span class="ico" aria-hidden="true">
+          <svg viewBox="0 0 64 64"><g fill="#FFC72C"><rect x="14" y="8" width="6" height="34" rx="2"/><rect x="24" y="4" width="6" height="38" rx="2"/><rect x="34" y="9" width="6" height="33" rx="2"/><rect x="44" y="12" width="6" height="30" rx="2"/></g><path d="M10 30h44l-5 27a4 4 0 0 1-4 3H19a4 4 0 0 1-4-3z" fill="#D7261F"/><path d="M10 30h44l-1.2 7H11.2z" fill="#F2542D"/></svg>
+        </span>
+        <h3>French Fries</h3>
+        <p class="origin">Belgium &amp; France, 1600s</p>
+        <p>Older than the restaurant that made them famous. Fried twice, salted immediately, engineered to stay good for exactly as long as the drive home.</p>
+      </article>
+
+      <article class="card menu-card" id="m-shake">
+        <span class="ico" aria-hidden="true">
+          <svg viewBox="0 0 64 64"><path d="M40 6l-6 16" stroke="#D7261F" stroke-width="4" stroke-linecap="round"/><path d="M18 24h28l-4 32a4 4 0 0 1-4 4H26a4 4 0 0 1-4-4z" fill="#F1E3CD"/><ellipse cx="32" cy="24" rx="14" ry="5" fill="#FFF9F1"/><circle cx="32" cy="17" r="6" fill="#FFF9F1"/><circle cx="32" cy="9" r="3" fill="#D7261F"/></svg>
+        </span>
+        <h3>The Milkshake</h3>
+        <p class="origin">Wisconsin, 1885</p>
+        <p>First printed mention came with a whisky chaser. The electric blender turned it from a soda-fountain curiosity into the drink that made drive-ins worth driving to.</p>
+      </article>
+
+      <article class="card menu-card" id="m-pizza">
+        <span class="ico" aria-hidden="true">
+          <svg viewBox="0 0 64 64"><path d="M32 4L60 56H4z" fill="#E8A33D"/><path d="M32 13L52 49H12z" fill="#F2542D"/><circle cx="32" cy="26" r="5" fill="#D7261F"/><circle cx="22" cy="41" r="4.5" fill="#D7261F"/><circle cx="42" cy="41" r="4.5" fill="#D7261F"/></svg>
+        </span>
+        <h3>The Pizza Slice</h3>
+        <p class="origin">Naples → New York</p>
+        <p>Naples sold pies; America sold singles. Selling by the slice is what turned a sit-down meal into something you eat walking.</p>
+      </article>
+
+      <article class="card menu-card" id="m-chicken">
+        <span class="ico" aria-hidden="true">
+          <svg viewBox="0 0 64 64"><path d="M12 22h40l-5 30a4 4 0 0 1-4 3H21a4 4 0 0 1-4-3z" fill="#FFF9F1" stroke="#D7261F" stroke-width="3"/><path d="M20 30h24M19 38h26M20 46h24" stroke="#D7261F" stroke-width="3" stroke-linecap="round"/><path d="M44 12c4-6 12-4 12 3 0 5-4 10-10 12l-4-6z" fill="#B4712F"/><circle cx="52" cy="9" r="4" fill="#FFF9F1" stroke="#B4712F" stroke-width="2"/></svg>
+        </span>
+        <h3>Fried Chicken</h3>
+        <p class="origin">American South, 1930s</p>
+        <p>Pressure frying made it fast enough for a chain. A roadside cook in Kentucky sold the recipe-by-franchise idea that the whole industry would copy.</p>
+      </article>
+
+      <article class="card menu-card" id="m-taco">
+        <span class="ico" aria-hidden="true">
+          <svg viewBox="0 0 64 64"><path d="M6 44c0-16 12-28 26-28s26 12 26 28z" fill="#E8A33D"/><path d="M12 44c0-12 9-21 20-21s20 9 20 21z" fill="#3E8E41"/><circle cx="24" cy="38" r="4" fill="#D7261F"/><circle cx="38" cy="34" r="4" fill="#D7261F"/><circle cx="32" cy="43" r="3.5" fill="#FFC72C"/><path d="M8 44h48v6a4 4 0 0 1-4 4H12a4 4 0 0 1-4-4z" fill="#B4712F"/></svg>
+        </span>
+        <h3>The Taco</h3>
+        <p class="origin">Mexico, pre-Hispanic</p>
+        <p>A folded, edible container — the original handheld meal. The American version swapped the filling and kept the shape, then went global in 1962.</p>
+      </article>
+
+      <article class="card menu-card" id="m-cone">
+        <span class="ico" aria-hidden="true">
+          <svg viewBox="0 0 64 64"><path d="M32 26L18 60h28z" fill="#E8A33D"/><path d="M21 44h22M24 36h16" stroke="#B4712F" stroke-width="2.5" stroke-linecap="round"/><path d="M22 26c0-9 5-20 10-20s10 11 10 20z" fill="#FFF9F1"/><path d="M24 18c0-6 4-12 8-12s8 6 8 12z" fill="#F1E3CD"/><circle cx="32" cy="9" r="3" fill="#D7261F"/></svg>
+        </span>
+        <h3>Soft Serve</h3>
+        <p class="origin">Illinois &amp; New York, 1938</p>
+        <p>Invented twice in the same year, both times because a truck couldn't sell hard ice cream fast enough. Soft serve freezes faster, which is entirely the point.</p>
+      </article>
+
+      <article class="card menu-card" id="m-drive">
+        <span class="ico" aria-hidden="true">
+          <svg viewBox="0 0 64 64"><path d="M8 44V26c0-3 2-5 5-5h24l10 9h4c3 0 5 2 5 5v9z" fill="#D7261F"/><rect x="16" y="25" width="14" height="11" rx="2" fill="#FFF9F1"/><rect x="34" y="30" width="9" height="6" rx="2" fill="#FFF9F1"/><circle cx="20" cy="47" r="6" fill="#17140F"/><circle cx="46" cy="47" r="6" fill="#17140F"/><path d="M4 22h20v4H4z" fill="#FFC72C"/></svg>
+        </span>
+        <h3>The Drive-Thru</h3>
+        <p class="origin">Springfield, Missouri, 1947</p>
+        <p>The invention that removed the last reason to get out of the car. Everything else on this page is designed to survive the ten-minute trip.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== numbers ===================== -->
+<section class="section" id="numbers">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">The numbers</p>
+      <h2>An enormous business, thinly sliced</h2>
+      <p class="lede">Analysts disagree about the size of the global fast food market — estimates for 2026 run from roughly $700B to $980B — because "fast food" is a fuzzy boundary. But they agree on the shape: mid-single-digit growth, led by North America, with Asia-Pacific moving fastest.</p>
+    </div>
+
+    <div class="stats">
+      <div class="card stat">
+        <span class="n">≈$890B</span>
+        <span class="lbl">Global fast food market, 2026</span>
+        <span class="note">Projected to reach roughly $1.3 trillion by 2034, depending on whose model you prefer.</span>
+        <span class="src">Source: <a href="#sources">Straits Research</a></span>
+      </div>
+      <div class="card stat">
+        <span class="n">4.5–5.3%</span>
+        <span class="lbl">Projected annual growth</span>
+        <span class="note">Compound annual growth rate through the mid-2030s, across the major market forecasts.</span>
+        <span class="src">Source: <a href="#sources">multiple</a></span>
+      </div>
+      <div class="card stat">
+        <span class="n">49.6%</span>
+        <span class="lbl">Share held by quick-service restaurants</span>
+        <span class="note">The QSR channel is roughly half of the whole market by distribution — the rest is catering, full-service, and delivery.</span>
+        <span class="src">Source: <a href="#sources">Straits Research</a></span>
+      </div>
+      <div class="card stat">
+        <span class="n">34.8%</span>
+        <span class="lbl">Largest product segment: burgers &amp; sandwiches</span>
+        <span class="note">Chicken, pizza &amp; pasta, seafood, and Asian/Latin American food split the rest.</span>
+        <span class="src">Source: <a href="#sources">Straits Research</a></span>
+      </div>
+      <div class="card stat">
+        <span class="n">36.4%</span>
+        <span class="lbl">North America's share of the market</span>
+        <span class="note">The biggest region by revenue. Asia-Pacific is the fastest-growing, at roughly 7.4% a year.</span>
+        <span class="src">Source: <a href="#sources">Straits Research</a></span>
+      </div>
+      <div class="card stat">
+        <span class="n">536,825</span>
+        <span class="lbl">Fast food restaurants worldwide</span>
+        <span class="note">Each one competing on the same three variables: price, speed, and convenience.</span>
+        <span class="src">Source: <a href="#sources">Research Nester</a></span>
+      </div>
+    </div>
+
+    <div class="chart">
+      <h3>Where the biggest chain actually is</h3>
+      <p class="cap">McDonald's restaurants by market, company-reported, year-end 2024 — 43,477 restaurants worldwide, about 95% of them franchised.</p>
+      <div class="bar-row"><span class="flag">United States</span><span class="bar-track"><span class="bar-fill" style="width:100%"></span></span><span class="v">13,557</span></div>
+      <div class="bar-row"><span class="flag">China</span><span class="bar-track"><span class="bar-fill" style="width:45.7%"></span></span><span class="v">6,195</span></div>
+      <div class="bar-row"><span class="flag">Japan</span><span class="bar-track"><span class="bar-fill" style="width:22.1%"></span></span><span class="v">2,992</span></div>
+      <div class="bar-row"><span class="flag">Canada</span><span class="bar-track"><span class="bar-fill" style="width:10.8%"></span></span><span class="v">1,469</span></div>
+      <div class="bar-row"><span class="flag">United Kingdom</span><span class="bar-track"><span class="bar-fill" style="width:10.7%"></span></span><span class="v">1,449</span></div>
+      <p class="tiny" style="margin:1.2rem 0 0">The same company now reports more than 45,000 restaurants across 100+ countries. Yum! Brands — KFC, Taco Bell, Pizza Hut — reported more than 63,000 across 155 countries and territories in July 2026.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== timeline ===================== -->
+<section class="section" id="timeline">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">The timeline</p>
+      <h2>From a lunch counter to a logistics network</h2>
+      <p class="lede">Roughly a century, in ten steps. The through-line isn't food — it's removing friction.</p>
+    </div>
+    <ol class="tl">
+      <li><span class="yr">1921</span><span class="dot" aria-hidden="true"></span><span class="what"><strong>White Castle opens in Wichita, Kansas</strong><span>Widely called the first fast-food chain: a standardized menu, a standardized building, and a burger priced for a working lunch.</span></span></li>
+      <li><span class="yr">1940</span><span class="dot" aria-hidden="true"></span><span class="what"><strong>The McDonald brothers open a drive-in</strong><span>San Bernardino, California. Barbecue, carhops, and a menu far too long for the volume they wanted.</span></span></li>
+      <li><span class="yr">1947</span><span class="dot" aria-hidden="true"></span><span class="what"><strong>Red's Giant Hamburgs, Springfield, Missouri</strong><span>Credited with the first drive-thru window — the format that would eventually define the industry.</span></span></li>
+      <li><span class="yr">1948</span><span class="dot" aria-hidden="true"></span><span class="what"><strong>The Speedee System</strong><span>The McDonald brothers cut the menu to nine items and rebuilt the kitchen as an assembly line. Order-to-counter time collapses; the modern model is born.</span></span></li>
+      <li><span class="yr">1955</span><span class="dot" aria-hidden="true"></span><span class="what"><strong>Ray Kroc opens his first franchise</strong><span>Des Plaines, Illinois. The product being sold is now the system itself — real estate, standards, and a playbook.</span></span></li>
+      <li><span class="yr">1971</span><span class="dot" aria-hidden="true"></span><span class="what"><strong>The Egg McMuffin debuts</strong><span>Santa Barbara, California. Breakfast is the last unclaimed meal of the day, and the first fast-food item built for it.</span></span></li>
+      <li><span class="yr">1975</span><span class="dot" aria-hidden="true"></span><span class="what"><strong>The drive-thru window arrives at scale</strong><span>Sierra Vista, Arizona — next to an army base where nobody was allowed out of uniform. The car becomes the dining room.</span></span></li>
+      <li><span class="yr">1979</span><span class="dot" aria-hidden="true"></span><span class="what"><strong>The Happy Meal</strong><span>Children stop being a customer segment and become a channel — one with a toy attached.</span></span></li>
+      <li><span class="yr">2004</span><span class="dot" aria-hidden="true"></span><span class="what"><strong>Supersize is retired</strong><span>After years of pressure and a documentary that entered the language, the industry discovers that "health" is a market too.</span></span></li>
+      <li><span class="yr">2020s</span><span class="dot" aria-hidden="true"></span><span class="what"><strong>Apps, kiosks, and delivery</strong><span>Loyalty programs, digital ordering, third-party couriers, and drive-thrus running on voice AI. The counter is becoming optional.</span></span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ===================== world tour ===================== -->
+<section class="section" id="world">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">The world tour</p>
+      <h2>The same idea, twelve local answers</h2>
+      <p class="lede">The format travels; the filling stays local. Everywhere it lands, fast food gets rebuilt out of whatever is already being eaten nearby.</p>
+    </div>
+    <div class="grid g3">
+      <article class="card place"><span class="where">Canada</span><h3>Poutine</h3><p>Fries, cheese curds, gravy. A diner invention from rural Quebec that became the country's most exported dish.</p></article>
+      <article class="card place"><span class="where">United Kingdom</span><h3>Fish &amp; chips</h3><p>Fried fish wrapped in paper, sold from a counter for 160 years — the original takeaway before anyone franchised it.</p></article>
+      <article class="card place"><span class="where">Mexico</span><h3>Tacos al pastor</h3><p>Vertical spit, seasoned pork, pineapple — a technique that arrived with Lebanese migration and a chilli marinade.</p></article>
+      <article class="card place"><span class="where">Vietnam</span><h3>Bánh mì</h3><p>A baguette from one empire, pâté and pickles from another, assembled into what Anthony Bourdain called the world's best sandwich.</p></article>
+      <article class="card place"><span class="where">Germany</span><h3>Döner kebab</h3><p>Invented in Berlin in the 1970s as a portable version of a sit-down meal. Now the country's most-eaten street food.</p></article>
+      <article class="card place"><span class="where">Türkiye</span><h3>Dürüm &amp; lahmacun</h3><p>Turkish street food had the wrap-and-sell format centuries before it had competition.</p></article>
+      <article class="card place"><span class="where">Japan</span><h3>Konbini chicken</h3><p>Convenience-store hot counters and bento racks perfected the same promise — fast, consistent, cheap, everywhere.</p></article>
+      <article class="card place"><span class="where">South Africa</span><h3>Bunny chow</h3><p>Curry served in a hollowed-out half loaf. Takeaway packaging made of the meal itself.</p></article>
+      <article class="card place"><span class="where">India</span><h3>Vada pav</h3><p>A fried potato dumpling in a bun with chutney — Mumbai's answer to the burger, at a price that undercuts everything.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== trivia ===================== -->
+<section class="section" id="trivia">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Loose change</p>
+      <h2>Five things worth knowing</h2>
+      <p class="lede">Tap any line to open it.</p>
+    </div>
+
+    <details class="q" open>
+      <summary>The Big Mac Index is a real economic instrument</summary>
+      <p>Since 1986, <em>The Economist</em> has compared the price of a Big Mac across countries as a lighthearted test of purchasing-power parity. It started as a joke and is still cited in currency debates — which says something about how standardized the burger really is.</p>
+    </details>
+
+    <details class="q">
+      <summary>Franchising is why the food is identical, not the other way round</summary>
+      <p>About 95% of McDonald's restaurants are franchised: the operator puts up the capital, the company supplies the system. That only works if the product can be specified precisely enough to reproduce — so the recipe was standardized first, then the business scaled on top of it.</p>
+    </details>
+
+    <details class="q">
+      <summary>The drive-thru is an accessibility invention</summary>
+      <p>It spread because of people who couldn't easily come inside: soldiers in uniform, later drivers with kids asleep in the back seat. Convenience for some customers is not a lifestyle choice — it's the only way the meal works at all.</p>
+    </details>
+
+    <details class="q">
+      <summary>Fries are older than the restaurants</summary>
+      <p>Fried potatoes show up in Belgian and French cooking in the 17th century, long before anyone thought to sell them in a paper sleeve. The sleeve, the salt timing, and the ten-minute quality window are the only modern parts.</p>
+    </details>
+
+    <details class="q">
+      <summary>Value menus are a response to the economy, every time</summary>
+      <p>Discount lineups reappear whenever customers trade down: during the 2008 financial crisis, and again as inflation squeezed household budgets in the 2020s. The cheap item isn't a loss leader so much as a weather report.</p>
+    </details>
+  </div>
+</section>
+
+<!-- ===================== sources ===================== -->
+<section class="section" id="sources">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Sources</p>
+      <h2>Where the figures come from</h2>
+      <p class="lede">Market-size estimates vary by methodology, so the numbers above are framed as ranges and labelled with their source. Figures checked on 5 October 2026.</p>
+    </div>
+    <ul class="sources">
+      <li><a href="https://straitsresearch.com/report/fast-food-market" rel="noopener">Straits Research — Fast Food Market Report</a> — 2025–2034 sizing, regional and segment shares.</li>
+      <li><a href="https://www.researchnester.com/reports/fast-food-market/6015" rel="noopener">Research Nester — Fast Food Market</a> — global restaurant count and 2026 estimate.</li>
+      <li><a href="https://www.coherentmarketinsights.com/market-insight/fast-food-market-5896" rel="noopener">Coherent Market Insights — Fast Food Market</a> — alternative 2026 sizing and CAGR.</li>
+      <li><a href="https://www.thebusinessresearchcompany.com/report/fast-food-global-market-report" rel="noopener">The Business Research Company — Fast Food Global Report</a> — company coverage and segment breakdown.</li>
+      <li><a href="https://www.statista.com/topics/1444/mcdonalds/" rel="noopener">Statista — McDonald's statistics &amp; facts</a> — restaurant counts by market and franchising share.</li>
+      <li><a href="https://en.wikipedia.org/wiki/McDonald%27s" rel="noopener">Wikipedia — McDonald's</a> — history, store counts, and corporate milestones.</li>
+    </ul>
+
+    <div class="callout">
+      <p><strong>About this page.</strong> Plain HTML and CSS: hand-written markup, no JavaScript, no framework, no build step, no trackers. Navigation is ordinary links; the dark-mode switch is a checkbox and a <code>:has()</code> selector; the accordions are native <code>&lt;details&gt;</code>. One page, one image. That's the whole trick — hypermedia, end to end.</p>
+      <p class="tiny">Served from GitHub Pages. Source and issue tracker in the repository.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap foot-in">
+    <p><strong>fast-foods</strong> — a field guide, hand-built. MIT licensed.</p>
+    <p><a href="https://github.com/iggym/fast-foods">View the source on GitHub</a> · <a href="#top">Back to top ↑</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
